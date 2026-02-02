@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Date Proposal</title>
+    <title>Valentine's Date Proposal 💘</title>
+
+    <!-- Favicon & Social Preview -->
+    <link rel="icon" type="image/png" href="assets/ASK.png">
+    <meta property="og:title" content="Will You Be My Valentine? 💘">
+    <meta property="og:description" content="A special Valentine’s invitation just for you ❤️">
+    <meta property="og:image" content="assets/ASK.png">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container" id="container">
         <h1 id="neon-sign">WILL YOU BE MY VALENTINE?</h1>
+
         <img src="assets/ASK.png" alt="Ask image" id="main-image" class="ask-image">
+
         <div class="button-container" id="button-container">
             <button id="yes-btn" class="btn yes-btn">YES</button>
             <button id="no-btn" class="btn no-btn">NO</button>
@@ -17,22 +27,27 @@
     </div>
 
     <!-- Contract Modal -->
-    <div id="contract-modal" class="contract-modal" style="display: none;">
+    <div id="contract-modal" class="contract-modal">
         <div class="contract-paper">
             <div class="contract-content">
                 <h2>VALENTINE'S DATE AGREEMENT</h2>
-                <p>This agreement is entered into on <input type="date" id="contract-date" class="contract-date-input"></p>
-                
+                <p>This agreement is entered into on 
+                    <input type="date" id="contract-date" class="contract-date-input">
+                </p>
+
                 <h3>WHEREAS:</h3>
-                <p>I have expressed sincere interest and unconditional love towards my absolutely gorgeous girlfriend, and now I am formally inviting you to be my Valentine Date for this year and beyond.</p>
-                
+                <p>
+                    I have expressed sincere interest and unconditional love towards my absolutely gorgeous girlfriend,
+                    and now I am formally inviting you to be my Valentine Date for this year and beyond.
+                </p>
+
                 <h3>TERMS AND CONDITIONS:</h3>
                 <p>1. The undersigned agrees to provide companionship, affection, and care.</p>
                 <p>2. The undersigned pledges to cherish and support the above-mentioned individual.</p>
                 <p>3. The undersigned pledges to communicate openly and respectfully.</p>
                 <p>4. The undersigned commits to making them smile and feel loved every day.</p>
                 <p>5. The undersigned promises to be their Valentine now and forever.</p>
-                
+
                 <h3>WITNESS:</h3>
                 <div class="witness-section">
                     <label for="witness-name">Witness Name:</label>
@@ -40,20 +55,22 @@
                     <button id="verify-witness-btn" class="btn verify-btn">Verify Witness</button>
                     <span id="witness-status" class="witness-status"></span>
                 </div>
-                
+
                 <h3>SIGNATURE:</h3>
                 <p>By clicking "I AGREE" below, you hereby sign and seal this Valentine's Contract.</p>
                 <button id="agree-btn" class="btn agree-btn" disabled>I AGREE</button>
             </div>
+
             <div id="stamp-area" class="stamp-area"></div>
         </div>
     </div>
 
-    <!-- Final GIF Modal -->
-    <div id="final-modal" class="final-modal" style="display: none;">
+    <!-- Final Modal -->
+    <div id="final-modal" class="final-modal">
         <img src="assets/MWA.gif" alt="MWA" class="final-gif">
     </div>
 
+    <!-- JS -->
     <script src="js/script.js"></script>
 </body>
 </html>
