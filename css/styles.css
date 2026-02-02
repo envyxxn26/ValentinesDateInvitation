@@ -1,0 +1,541 @@
+/* Set the background image */
+body {
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    background: url('../assets/BACKGROUND_1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Container for centering content */
+.container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 40px;
+    border-radius: 15px;
+}
+
+/* Neon sign styling */
+#neon-sign {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 
+        0 0 5px #ff0080,
+        0 0 10px #ff0080,
+        0 0 15px #ff0080,
+        0 0 20px #ff0080,
+        0 0 30px #ff0080,
+        0 0 40px #ff0080;
+    animation: neon-glow 1.5s ease-in-out infinite;
+    margin: 0 0 30px 0;
+    letter-spacing: 2px;
+}
+
+/* Keyframe animation for the glow */
+@keyframes neon-glow {
+    0% {
+        text-shadow: 
+            0 0 5px #ff0080,
+            0 0 10px #ff0080,
+            0 0 15px #ff0080,
+            0 0 20px #ff0080,
+            0 0 30px #ff0080,
+            0 0 40px #ff0080;
+    }
+    25% {
+        text-shadow: 
+            0 0 5px #ff00ff,
+            0 0 10px #ff00ff,
+            0 0 15px #ff00ff,
+            0 0 20px #ff00ff,
+            0 0 30px #ff00ff,
+            0 0 40px #ff00ff;
+    }
+    50% {
+        text-shadow: 
+            0 0 5px #0080ff,
+            0 0 10px #0080ff,
+            0 0 15px #0080ff,
+            0 0 20px #0080ff,
+            0 0 30px #0080ff,
+            0 0 40px #0080ff;
+    }
+    75% {
+        text-shadow: 
+            0 0 5px #ff0080,
+            0 0 10px #ff0080,
+            0 0 15px #ff0080,
+            0 0 20px #ff0080,
+            0 0 30px #ff0080,
+            0 0 40px #ff0080;
+    }
+    100% {
+        text-shadow: 
+            0 0 10px #ff00ff,
+            0 0 20px #ff00ff,
+            0 0 30px #ff00ff,
+            0 0 40px #ff00ff,
+            0 0 50px #ff00ff,
+            0 0 60px #ff00ff;
+    }
+}
+
+/* Styling for the ASK image */
+.ask-image {
+    max-width: 100%;
+    height: auto;
+    margin: 30px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
+}
+
+/* Button container */
+.button-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Button styling */
+.btn {
+    font-size: 1.3rem;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* YES button - Green */
+.yes-btn {
+    background-color: #00ff00;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.yes-btn:hover {
+    background-color: #00dd00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+    transform: scale(1.1);
+}
+
+/* NO button - Red */
+.no-btn {
+    background-color: #ff0000;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.no-btn:hover {
+    background-color: #dd0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+/* Button size levels for NO click interactions */
+.size-level-1 {
+    transition: all 0.5s ease;
+}
+
+.yes-btn.size-level-1 {
+    font-size: 1.6rem;
+    padding: 20px 50px;
+}
+
+.no-btn.size-level-1 {
+    font-size: 0.9rem;
+    padding: 10px 25px;
+}
+
+.size-level-2 {
+    transition: all 0.5s ease;
+}
+
+.yes-btn.size-level-2 {
+    font-size: 3rem;
+    padding: 40px 80px;
+}
+
+.no-btn.size-level-2 {
+    font-size: 0.7rem;
+    padding: 8px 18px;
+}
+
+.yes-btn.size-level-3 {
+    font-size: 9rem;
+    padding: 120px 240px;
+}
+
+/* Split screen layout */
+.split-screen {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 90vw;
+    height: auto;
+}
+
+.split-screen h1 {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.split-screen #main-image {
+    flex: 1;
+    max-width: 45%;
+    height: auto;
+    margin: 0;
+}
+
+.split-screen #button-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+/* Moving NO button */
+.moving-no-btn {
+    position: fixed;
+    font-size: 1rem;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.moving-no-btn:hover {
+    transform: scale(1.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #neon-sign {
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .container {
+        padding: 30px;
+        max-width: 90%;
+    }
+    
+    .btn {
+        font-size: 1.1rem;
+        padding: 12px 30px;
+    }
+    
+    .button-container {
+        gap: 15px;
+    }
+}
+
+/* Contract Modal */
+.contract-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.contract-modal[style*="display: flex"] {
+    animation: fadeIn 0.3s ease;
+}
+
+.contract-paper {
+    width: 90%;
+    max-width: 700px;
+    background: #f5f1e8;
+    border: 2px solid #8b7355;
+    border-radius: 5px;
+    padding: 40px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: rollIn 0.8s ease;
+}
+
+@keyframes rollIn {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.contract-content h2 {
+    text-align: center;
+    color: #2c1810;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-decoration: underline;
+}
+
+.contract-content h3 {
+    color: #3d2817;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #8b7355;
+    padding-bottom: 5px;
+}
+
+.contract-content p {
+    color: #333;
+    line-height: 1.6;
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+/* Contract Date Input */
+.contract-date-input {
+    padding: 5px 10px;
+    border: 2px solid #8b7355;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #fff;
+    color: #333;
+    margin: 0 5px;
+    width: auto;
+    min-width: 150px;
+}
+
+.contract-date-input:focus {
+    outline: none;
+    border-color: #ff0080;
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.3);
+}
+
+/* Witness Section */
+.witness-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap; /* Allows wrapping on small screens */
+}
+
+.witness-section label {
+    color: #2c1810;
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.witness-input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #8b7355;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #fff;
+    color: #333;
+    min-width: 150px; /* Ensures input doesn't shrink too much */
+}
+
+.witness-input:focus {
+    outline: none;
+    border-color: #ff0080;
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.3);
+}
+
+.witness-status {
+    font-size: 1.5rem;
+    min-width: 30px;
+    text-align: center;
+    display: none; /* Hide by default until verification */
+}
+
+.witness-status.valid::before {
+    content: '✓';
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.witness-status.invalid::before {
+    content: '✗';
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1rem;
+    color: #ff0080;
+    font-weight: bold;
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff0080;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Verify Witness Button */
+.verify-btn {
+    background-color: #ff0080;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.verify-btn:hover {
+    background-color: #ff1a99;
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.8);
+    transform: scale(1.05);
+}
+
+.verify-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Agree Button */
+.agree-btn {
+    background-color: #ff0080;
+    color: #fff;
+    font-size: 1.3rem;
+    padding: 15px 40px;
+    margin-top: 20px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.agree-btn:hover:not(:disabled) {
+    background-color: #ff1a99;
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.8);
+    transform: scale(1.02);
+}
+
+.agree-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Stamp Area */
+.stamp-area {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    width: 150px;
+    height: 150px;
+    pointer-events: none;
+}
+
+.stamp {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    animation: stampAnimation 0.6s ease forwards;
+}
+
+@keyframes stampAnimation {
+    0% {
+        transform: rotate(-15deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(-15deg) scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Final Modal */
+.final-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.final-modal[style*="display: flex"] {
+    animation: fadeIn 1s ease;
+}
+
+.final-gif {
+    max-width: 90%;
+    max-height: 90%;
+    animation: zoomIn 0.5s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
