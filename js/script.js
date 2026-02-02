@@ -2,6 +2,16 @@ let noClickCount = 0;
 let moveInterval;
 let contractShown = false;
 
+// Function to handle image loading errors
+function handleImageError(img) {
+    console.error('Image failed to load:', img.src);
+    img.style.display = 'none'; // Hide broken image
+    const fallback = document.createElement('p');
+    fallback.textContent = 'Image not found. Check file paths!';
+    fallback.style.color = '#ff0080';
+    img.parentNode.appendChild(fallback);
+}
+
 // YES button initial click - show contract
 function showContract() {
     if (contractShown) return;
@@ -93,6 +103,7 @@ function handleAgree() {
     stampImg.src = '../assets/STAMP.png';
     stampImg.className = 'stamp';
     stampImg.alt = 'STAMP';
+    stampImg.onerror = () => handleImageError(stampImg);
     stampArea.appendChild(stampImg);
     
     // Show progress bar and animate it
