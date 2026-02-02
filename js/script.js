@@ -1,178 +1,194 @@
 let noClickCount = 0;
-let moveInterval = null;
+let moveInterval;
 let contractShown = false;
 
-/* =========================
-   CONTRACT LOGIC
-========================= */
-
+// YES button initial click - show contract
 function showContract() {
     if (contractShown) return;
     contractShown = true;
-
-    stopMovingNo();
-
-    const modal = document.getElementById('contract-modal');
-    modal.style.display = 'flex';
-
-    // Set today's date
+    
+    if (moveInterval) clearInterval(moveInterval);
+    const noBtn = document.getElementById('no-btn');
+    if (noBtn) noBtn.remove(); // Remove any lingering NO button
+    
+    document.getElementById('contract-modal').style.display = 'flex';
+    
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('contract-date').value = today;
+    
+    const witnessInput = document.getElementById('witness-name');
+    witnessInput.addEventListener('input', validateWitness);
+    
+    document.getElementById('verify-witness-btn').addEventListener('click', verifyWitness);
+    document.getElementById('agree-btn').addEventListener('click', handleAgree);
+    document.getElementById('close-contract').addEventListener('click', closeContract); // Added close handler
+    
+    document.getElementById('agree-btn').disabled = true;
+}
 
-    // Bind buttons
-    document.getElementById('verify-witness-btn').onclick = verifyWitness;
-    document.getElementById('agree-btn').onclick = handleAgree;
+function closeContract() {
+    document.getElementById('contract-modal').style.display = 'none';
+    contractShown = false; // Allow reopening if needed
+}
+
+function validateWitness(e) {
+    const input = e.target.value;
+    const statusEl = document.getElementById('witness-status');
+    const loadingEl = document.getElementById('loading-indicator');
+    
+    if (input.length > 0) {
+        if (!loadingEl) {
+            const newLoadingEl = document.createElement('div');
+            newLoadingEl.id = 'loading-indicator';
+            newLoadingEl.className = 'loading-indicator';
+            newLoadingEl.innerHTML = '<div class="loading-spinner"></div> Loading...';
+            document.querySelector('.witness-section').appendChild(newLoadingEl);
+        }
+        statusEl.style.display = 'none';
+    } else {
+        if (loadingEl) loadingEl.remove();
+        statusEl.style.display = 'none';
+    }
 }
 
 function verifyWitness() {
-    const input = document.getElementById('witness-name').value.trim();
+    const input = document.getElementById('witness-name').value;
     const agreeBtn = document.getElementById('agree-btn');
     const statusEl = document.getElementById('witness-status');
-
-    if (!input) {
-        alert('Please enter a witness name.');
+    const loadingEl = document.getElementById('loading-indicator');
+    
+    if (loadingEl) loadingEl.remove();
+    
+    if (input.length === 0) {
+        alert('Please enter a witness name first.');
         agreeBtn.disabled = true;
         statusEl.style.display = 'none';
         return;
     }
-
-    if (!/^[a-zA-Z\s]+$/.test(input)) {
-        alert('Invalid witness name. Letters and spaces only.');
+    
+    const onlyLetters = /^[a-zA-Z\s]+$/.test(input);
+    
+    if (onlyLetters) {
+        alert('Witness verified! You can now sign the contract.');
+        agreeBtn.disabled = false;
+        statusEl.className = 'witness-status valid';
+        statusEl.style.display = 'inline-block';
+    } else {
+        alert('Invalid witness name. Only letters and spaces are allowed. Please try again.');
+        agreeBtn.disabled = true;
         statusEl.className = 'witness-status invalid';
         statusEl.style.display = 'inline-block';
-        agreeBtn.disabled = true;
-        return;
     }
-
-    alert('Witness verified! 💖');
-    statusEl.className = 'witness-status valid';
-    statusEl.style.display = 'inline-block';
-    agreeBtn.disabled = false;
 }
 
 function handleAgree() {
+    const dateInput = document.getElementById('contract-date').value;
+    if (!dateInput) {
+        alert('Please select a date for the agreement.');
+        return;
+    }
+    
     const stampArea = document.getElementById('stamp-area');
-
     const stampImg = document.createElement('img');
-    stampImg.src = 'assets/STAMP.png';
+    stampImg.src = '../assets/STAMP.png';
     stampImg.className = 'stamp';
     stampImg.alt = 'STAMP';
     stampArea.appendChild(stampImg);
-
-    // Transition to final modal
+    
+    // Show progress bar and animate it
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.display = 'block';
+    const progressFill = document.querySelector('.progress-fill');
+    progressFill.style.width = '100%';
+    
     setTimeout(() => {
-        document.getElementById('contract-modal').style.display = 'none';
-        document.getElementById('final-modal').style.display = 'flex';
+        document.getElementById('contract-modal').style.animation = 'fadeOut 1s ease forwards';
+        setTimeout(() => {
+            document.getElementById('contract-modal').style.display = 'none';
+            document.getElementById('final-modal').style.display = 'flex';
+        }, 1000);
     }, 15000);
 }
 
-/* =========================
-   NO BUTTON LOGIC
-========================= */
-
 function handleNoClick() {
     noClickCount++;
-
-    stopMovingNo(); // Always stop old movement
-
-    const img = document.getElementById('main-image');
-    const container = document.getElementById('container');
-    const buttonContainer = document.getElementById('button-container');
-
+    
     if (noClickCount === 1) {
-        img.src = 'assets/GAGI WAG 1.gif';
-    }
-
-    else if (noClickCount === 2) {
-        img.src = 'assets/GAGI WAG 2.gif';
-    }
-
-    else if (noClickCount === 3) {
-        img.src = 'assets/GAGI WAG 3.gif';
-
-        // Replace buttons
-        buttonContainer.innerHTML = `
-            <button id="yes-btn" class="btn yes-btn">YES</button>
-        `;
-
-        // Create moving NO button
-        const movingNo = document.createElement('button');
-        movingNo.id = 'moving-no-btn';
-        movingNo.className = 'btn no-btn';
-        movingNo.textContent = 'NO';
-
-        document.body.appendChild(movingNo);
-
-        // Bind events
-        movingNo.onclick = () => {
-            stopMovingNo();
-            movingNo.remove();
-            handleNoClick();
-        };
-
-        document.getElementById('yes-btn').onclick = showContract;
-
-        // Start movement
-        startMovingNo(movingNo);
-    }
-
-    else if (noClickCount === 4) {
-        // Final emotional stage
-        document.body.style.backgroundImage = "url('assets/GAGI WAG 4.gif')";
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundPosition = 'center';
-        document.body.style.backgroundAttachment = 'fixed';
-
-        container.style.display = 'none';
-
-        const please = document.createElement('div');
-        please.innerText = 'Please? 🥺';
-        please.style.position = 'fixed';
-        please.style.top = '50%';
-        please.style.right = '10%';
-        please.style.transform = 'translateY(-50%)';
-        please.style.color = '#fff';
-        please.style.fontSize = '2rem';
-        please.style.fontWeight = 'bold';
-        please.style.cursor = 'pointer';
-        please.style.textShadow = '0 0 10px #ff0080';
-        please.style.zIndex = '9999';
-
-        please.onclick = showContract;
-        document.body.appendChild(please);
+        document.getElementById('main-image').src = '../assets/GAGI WAG 1.gif';
+        document.getElementById('yes-btn').classList.add('size-level-1');
+        document.getElementById('no-btn').classList.add('size-level-1');
+    } else if (noClickCount === 2) {
+        document.getElementById('main-image').src = '../assets/GAGI WAG 2.gif';
+        document.getElementById('yes-btn').classList.remove('size-level-1');
+        document.getElementById('yes-btn').classList.add('size-level-2');
+        document.getElementById('no-btn').classList.remove('size-level-1');
+        document.getElementById('no-btn').classList.add('size-level-2');
+    } else if (noClickCount === 3) {
+        const container = document.getElementById('container');
+        container.classList.add('split-screen');
+        
+        document.getElementById('main-image').src = '../assets/GAGI WAG 3.gif';
+        document.getElementById('button-container').innerHTML = '<button id="yes-btn" class="btn yes-btn size-level-3">YES</button>';
+        
+        const noBtnContainer = document.createElement('div');
+        noBtnContainer.id = 'moving-no-btn-container';
+        noBtnContainer.innerHTML = '<button id="no-btn" class="btn no-btn moving-no-btn">NO</button>';
+        container.appendChild(noBtnContainer);
+        
+        const newNoBtn = document.getElementById('no-btn');
+        newNoBtn.addEventListener('click', handleNoClick);
+        
+        const newYesBtn = document.getElementById('yes-btn');
+        newYesBtn.addEventListener('click', showContract);
+        
+        moveNoButton();
+    } else if (noClickCount === 4) {
+        if (moveInterval) clearInterval(moveInterval);
+        const noBtn = document.getElementById('no-btn');
+        if (noBtn) noBtn.remove(); // Fix: Remove the moving button
+        
+        const body = document.body;
+        body.style.backgroundImage = "url('../assets/GAGI WAG 4.gif')";
+        body.style.backgroundSize = 'cover';
+        body.style.backgroundPosition = 'center center';
+        body.style.backgroundAttachment = 'fixed';
+        
+        document.getElementById('container').style.display = 'none';
+        
+        const pleaseText = document.createElement('div');
+        pleaseText.id = 'please-text';
+        pleaseText.textContent = 'Please?';
+        pleaseText.style.position = 'absolute';
+        pleaseText.style.top = '50%';
+        pleaseText.style.right = '10%';
+        pleaseText.style.transform = 'translateY(-50%)';
+        pleaseText.style.fontSize = '2rem';
+        pleaseText.style.fontWeight = 'bold';
+        pleaseText.style.color = '#fff';
+        pleaseText.style.textShadow = '0 0 10px #ff0080';
+        pleaseText.style.cursor = 'pointer';
+        pleaseText.style.zIndex = '1000';
+        pleaseText.addEventListener('click', () => {
+            showContract();
+            body.removeChild(pleaseText);
+        });
+        body.appendChild(pleaseText);
     }
 }
-
-/* =========================
-   MOVING BUTTON CONTROL
-========================= */
-
-function startMovingNo(button) {
-    moveInterval = setInterval(() => {
-        const x = Math.random() * (window.innerWidth - 120);
-        const y = Math.random() * (window.innerHeight - 60);
-
-        button.style.position = 'fixed';
-        button.style.left = `${x}px`;
-        button.style.top = `${y}px`;
-    }, 1200);
-}
-
-function stopMovingNo() {
-    if (moveInterval) {
-        clearInterval(moveInterval);
-        moveInterval = null;
-    }
-
-    const oldBtn = document.getElementById('moving-no-btn');
-    if (oldBtn) oldBtn.remove();
-}
-
-/* =========================
-   INIT
-========================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('yes-btn').onclick = showContract;
-    document.getElementById('no-btn').onclick = handleNoClick;
+    document.getElementById('yes-btn').addEventListener('click', showContract);
+    document.getElementById('no-btn').addEventListener('click', handleNoClick);
 });
+
+function moveNoButton() {
+    const noBtn = document.getElementById('no-btn');
+    if (!noBtn) return;
+    
+    moveInterval = setInterval(() => {
+        const randomX = Math.random() * (window.innerWidth - 100);
+        const randomY = Math.random() * (window.innerHeight - 50);
+        noBtn.style.left = randomX + 'px';
+        noBtn.style.top = randomY + 'px';
+    }, 1500);
+}
